@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvf6krjm008aw"]
+
+[ext_resource type="PackedScene" uid="uid://d1rpcoy3v6uuu" path="res://road_slantCurve.blend" id="1_j36cq"]
+
+[node name="road_slantCurve2" instance=ExtResource("1_j36cq")]
+
+[node name="road_slantCurve_collision" parent="." index="1"]
+visible = false
+
+[node name="road_slantCurve_collision_nav" parent="." index="2"]
+visible = false

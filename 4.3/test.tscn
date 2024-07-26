@@ -1,0 +1,57 @@
+[gd_scene load_steps=9 format=3 uid="uid://bog10x6r615ny"]
+
+[ext_resource type="Shader" path="res://outline.gdshader" id="1_p3jf7"]
+[ext_resource type="PackedScene" uid="uid://cvf6krjm008aw" path="res://road_slant_curve.tscn" id="1_pq7hu"]
+[ext_resource type="Script" path="res://rotate.gd" id="2_af4bc"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1o1fa"]
+sky_top_color = Color(1, 1, 1, 1)
+sky_horizon_color = Color(0.8, 0.79225, 0.78325, 1)
+ground_horizon_color = Color(0.8, 0.79225, 0.78325, 1)
+
+[sub_resource type="Sky" id="Sky_qmttb"]
+sky_material = SubResource("ProceduralSkyMaterial_1o1fa")
+
+[sub_resource type="Environment" id="Environment_lw0a5"]
+background_mode = 2
+sky = SubResource("Sky_qmttb")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_4mu3d"]
+flip_faces = true
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_31hpe"]
+render_priority = 0
+shader = ExtResource("1_p3jf7")
+shader_parameter/outlineColor = Color(0, 0, 0, 0.78)
+shader_parameter/depth_threshold = 0.025
+shader_parameter/normal_threshold = 0.5
+shader_parameter/normal_smoothing = 0.25
+shader_parameter/max_thickness = 1.3
+shader_parameter/min_thickness = 0.5
+shader_parameter/max_distance = 75.0
+shader_parameter/min_distance = 2.0
+shader_parameter/grazing_fresnel_power = 5.0
+shader_parameter/grazing_angle_mask_power = 1.0
+shader_parameter/grazing_angle_modulation_factor = 50.0
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_lw0a5")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.642788, 0.766044, 0, -0.766044, 0.642788, 0, 1.5, 1.25)
+
+[node name="PostProcessOutline" type="MeshInstance3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, -1.38669e-08, 0, 8.45485e-09, 1, 0, 0.0445393, -0.0729983)
+mesh = SubResource("QuadMesh_4mu3d")
+surface_material_override/0 = SubResource("ShaderMaterial_31hpe")
+
+[node name="Road" parent="." instance=ExtResource("1_pq7hu")]
+script = ExtResource("2_af4bc")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.91108, 0.145881, -0.385555, -9.86158e-19, 0.93529, 0.353883, 0.41223, -0.322416, 0.852124, -2.24694, 1.46811, 1.31334)
